@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  
+  --color-brand-wine: #5d191d;
+  --color-brand-wine-dark: #3c1012;
+  --color-brand-wine-light: #822328;
+  --color-brand-wine-soft: rgba(93, 25, 29, 0.05);
+  --color-brand-gold: #b8860b;
+  --color-brand-gold-dark: #946c09;
+  --color-brand-gold-light: rgba(212, 175, 55, 0.3);
+  --color-brand-cream: #fdfaf6;
+  --color-brand-cream-dark: #e5e1da;
+  --color-brand-cream-light: #ffffff;
+}
+
+/* Base style resets and customizations */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-brand-cream);
+  color: #2c1810;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-serif-display {
+  font-family: var(--font-serif);
+}
+
+/* Custom Scrollbar for a luxurious feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-brand-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-gold-light);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-gold);
+}
+
+/* Printing styles */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-card {
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 20px !important;
+  }
+}
+
+.print-only {
+  display: none;
+}
+

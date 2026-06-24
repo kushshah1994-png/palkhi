@@ -1,0 +1,39 @@
+{
+  "entities": [
+    {
+      "name": "orders",
+      "description": "Collection of saree embroidery orders (custom and online)",
+      "fields": [
+        { "name": "orderNumber", "type": "string", "description": "Unique order tracking ID" },
+        { "name": "customerName", "type": "string", "description": "Client full name" },
+        { "name": "customerPhone", "type": "string", "description": "Client contact phone" },
+        { "name": "orderType", "type": "string", "description": "custom or online" },
+        { "name": "shipmentStatus", "type": "string", "description": "Current dispatch stage" },
+        { "name": "createdAt", "type": "string", "description": "ISO timestamp of order creation" },
+        { "name": "sarees", "type": "array", "description": "List of saree items in this order" },
+        { "name": "payment", "type": "object", "description": "Payment breakdown and advances" }
+      ]
+    },
+    {
+      "name": "stock",
+      "description": "Collection of embroidery stock inventory items tracked by barcode",
+      "fields": [
+        { "name": "barcode", "type": "string", "description": "Inventory piece barcode ID" },
+        { "name": "type", "type": "string", "description": "Embroidery work style" },
+        { "name": "colour", "type": "string", "description": "Fabric color" },
+        { "name": "karigar", "type": "string", "description": "Assigned artisan name" },
+        { "name": "status", "type": "string", "description": "Piece production stage" },
+        { "name": "lastUpdated", "type": "string", "description": "ISO date of last status change" }
+      ]
+    },
+    {
+      "name": "settings",
+      "description": "Application access settings and role toggles",
+      "fields": [
+        { "name": "hideCustomRev", "type": "boolean", "description": "Hide custom order revenue" },
+        { "name": "hideOnlineRev", "type": "boolean", "description": "Hide online revenue" },
+        { "name": "hideEmbCost", "type": "boolean", "description": "Hide embroidery costs" }
+      ]
+    }
+  ]
+}

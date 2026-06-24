@@ -1,0 +1,6 @@
+{
+  "name": "PALKHE — Embroidery Order Management",
+  "description": "Premium order management system for custom embroidery, ready-stock sarees, and online orders for Palkhi Sarees, Mumbai.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
