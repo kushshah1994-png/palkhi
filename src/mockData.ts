@@ -884,11 +884,13 @@ export const INITIAL_EMBROIDERY_STOCK: EmbroideryStockItem[] = [
 ];
 
 export const ALL_KARIGARS = [
-  'Ismailbhai Zardosi',
-  'Rafiqbhai Karim',
-  'Maqbool Ansari',
-  'Sajid Ali',
-  'Devendra Vaskar'
+  'Jigariya/Aashiq',
+  'Shabbir',
+  'Moinuddin',
+  'Salman Khan',
+  'Shariful',
+  'Sonu Kolkata',
+  'Junaid Kolkata'
 ];
 
 export const EMBROIDERIES_TYPES_LIST = [
@@ -899,21 +901,52 @@ export const EMBROIDERIES_TYPES_LIST = [
   'Aari',
   'Cutwork',
   'Resham',
-  'Stone'
+  'Stone',
+  'Kolkata Zardozi'
 ];
 
 export const SAREE_TYPES_LIST = [
-  'Banarasi',
   'Kanjivaram',
-  'Paithani',
-  'Chanderi',
-  'Organza',
-  'Georgette',
-  'Bandhani',
+  'Bandhej',
+  'Banarasi',
+  'Saiyam Bandhani AT',
+  'Ajrakh',
   'Patola',
-  'Gara',
-  'Satin Silk',
-  'Tissue'
+  'Patola Tissue',
+  'Georgette Lehariya',
+  'Georgette Bandhani',
+  'Satin Rangkat',
+  'Banarsi Butti Satin',
+  'Tissue Brocade',
+  'Georgette AT Bandhani',
+  'Tishu',
+  'Banarsi Silk',
+  'Dola Shilk',
+  'Georgette'
+];
+
+export const COLOURS_LIST = [
+  'Golden',
+  'Pista Green',
+  'Rama',
+  'Multi colour pink',
+  'Purple',
+  'Red',
+  'Rani',
+  'Blue',
+  'Pink',
+  'Indigo',
+  'White',
+  'Maroon',
+  'Rust',
+  'Peech',
+  'Multi Pink',
+  'Blue Colour',
+  'Golden Colour',
+  'Majenta',
+  'C Green',
+  'Sage Green',
+  'Green'
 ];
 
 export const PAYMENT_MODES = [

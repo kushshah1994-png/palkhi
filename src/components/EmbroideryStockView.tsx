@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { EmbroideryStockItem, EmbroideryPieceStatus, AccessSettings } from '../types';
-import { ALL_KARIGARS } from '../mockData';
+import { ALL_KARIGARS, SAREE_TYPES_LIST, COLOURS_LIST } from '../mockData';
 import { generateWhatsAppKarigarMsg, formatTitleCase } from '../utils';
 import { Share2, Plus, Filter, Search, RotateCcw, ChevronRight, X, Clock, HelpCircle, AlertCircle, FileText, CheckCircle2, EyeOff, Calendar, Link, Receipt } from 'lucide-react';
 
@@ -54,7 +54,7 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
   ]);
 
   // Karigar State (from presets & manual input)
-  const [assignedKarigar, setAssignedKarigar] = useState('Ismailbhai Zardosi');
+  const [assignedKarigar, setAssignedKarigar] = useState('Jigariya/Aashiq');
 
   // Status & Dates State
   const [currentStatus, setCurrentStatus] = useState<EmbroideryPieceStatus>('Given to karigar');
@@ -187,7 +187,7 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
       { id: '1', partyName: '', barcode: '', sareeType: '', colour: '', embroideryType: '', piecePhoto: '' },
       { id: '2', partyName: '', barcode: '', sareeType: '', colour: '', embroideryType: '', piecePhoto: '' }
     ]);
-    setAssignedKarigar('Ismailbhai Zardosi');
+    setAssignedKarigar('Jigariya/Aashiq');
     setCurrentStatus('Given to karigar');
     setDateGiven(new Date().toISOString().split('T')[0]);
     setExpectedReturn('');
@@ -567,6 +567,20 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                             onChange={e => setSingleSareeType(e.target.value)}
                             className="w-full bg-white border border-stone-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-brand-wine"
                           />
+                          <div className="flex flex-wrap gap-1 mt-1.5 max-h-20 overflow-y-auto">
+                            {SAREE_TYPES_LIST.map(st => (
+                              <button
+                                key={st}
+                                type="button"
+                                onClick={() => setSingleSareeType(st)}
+                                className={`px-2 py-0.5 rounded text-[9px] font-medium border transition-all ${
+                                  singleSareeType === st ? 'bg-brand-wine text-white border-brand-wine' : 'bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200'
+                                }`}
+                              >
+                                {st}
+                              </button>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
@@ -580,6 +594,20 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                             onChange={e => setSingleColour(e.target.value)}
                             className="w-full bg-white border border-stone-200 rounded-xl px-2 py-2 text-xs focus:outline-none focus:border-brand-wine"
                           />
+                          <div className="flex flex-wrap gap-1 mt-1.5 max-h-20 overflow-y-auto">
+                            {COLOURS_LIST.map(col => (
+                              <button
+                                key={col}
+                                type="button"
+                                onClick={() => setSingleColour(col)}
+                                className={`px-1.5 py-0.5 rounded text-[8.5px] font-medium border transition-all ${
+                                  singleColour === col ? 'bg-brand-wine text-white border-brand-wine' : 'bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200'
+                                }`}
+                              >
+                                {col}
+                              </button>
+                            ))}
+                          </div>
                         </div>
                         <div>
                           <label className="block text-[9px] font-semibold text-stone-600 mb-1">Embroidery type</label>
@@ -709,6 +737,20 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                                   }}
                                   className="w-full bg-stone-50/50 border border-stone-200 rounded-lg px-2.5 py-1.5 text-xs text-stone-800 focus:outline-none"
                                 />
+                                <div className="flex flex-wrap gap-1 mt-1 max-h-16 overflow-y-auto">
+                                  {SAREE_TYPES_LIST.map(st => (
+                                    <button
+                                      key={st}
+                                      type="button"
+                                      onClick={() => setMultiplePieces(prev => prev.map(p => p.id === piece.id ? { ...p, sareeType: st } : p))}
+                                      className={`px-1.5 py-0.5 rounded text-[8px] font-medium border transition-all ${
+                                        piece.sareeType === st ? 'bg-brand-wine text-white border-brand-wine' : 'bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200'
+                                      }`}
+                                    >
+                                      {st}
+                                    </button>
+                                  ))}
+                                </div>
                               </div>
                               <div>
                                 <label className="block text-[8px] font-bold text-stone-500 uppercase mb-0.5">Colour</label>
@@ -722,6 +764,20 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                                   }}
                                   className="w-full bg-stone-50/50 border border-stone-200 rounded-lg px-2.5 py-1.5 text-xs text-stone-800 focus:outline-none"
                                 />
+                                <div className="flex flex-wrap gap-1 mt-1 max-h-16 overflow-y-auto">
+                                  {COLOURS_LIST.map(col => (
+                                    <button
+                                      key={col}
+                                      type="button"
+                                      onClick={() => setMultiplePieces(prev => prev.map(p => p.id === piece.id ? { ...p, colour: col } : p))}
+                                      className={`px-1.5 py-0.5 rounded text-[8px] font-medium border transition-all ${
+                                        piece.colour === col ? 'bg-brand-wine text-white border-brand-wine' : 'bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200'
+                                      }`}
+                                    >
+                                      {col}
+                                    </button>
+                                  ))}
+                                </div>
                               </div>
                             </div>
 
@@ -793,14 +849,7 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                     {/* Quick Select Buttons Grid (Directly mirroring the screenshot) */}
                     <div className="flex flex-wrap gap-1.5">
                       {[
-                        'Ismailbhai Zardosi',
-                        'Khalidbhai',
-                        'Maqbool Ansari',
-                        'Rafiqbhai Karim',
-                        'Irfanbhai',
-                        'Abdulbhai',
-                        'Banu Kolkata',
-                        'Junaid Kolkata',
+                        ...ALL_KARIGARS,
                         'Custom Karigar'
                       ].map(name => {
                         const isSelected = assignedKarigar === name;
@@ -819,7 +868,7 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                               }
                             }}
                             className={`px-3 py-1.5 rounded-xl text-[10px] font-medium border transition-all ${
-                              isSelected || (name === 'Custom Karigar' && !['Ismailbhai Zardosi','Khalidbhai','Maqbool Ansari','Rafiqbhai Karim','Irfanbhai','Abdulbhai','Banu Kolkata','Junaid Kolkata'].includes(assignedKarigar))
+                              isSelected || (name === 'Custom Karigar' && !ALL_KARIGARS.includes(assignedKarigar))
                                 ? 'bg-brand-gold border-brand-gold text-stone-900 shadow-sm'
                                 : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
                             }`}
