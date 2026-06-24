@@ -54,7 +54,15 @@ export default function App() {
 
     if (cachedOrders) setOrders(JSON.parse(cachedOrders));
     if (cachedStock) setEmbroideryItems(JSON.parse(cachedStock));
-    if (cachedAccess) setAccessSettings(JSON.parse(cachedAccess));
+    if (cachedAccess) {
+      try {
+        const parsed = JSON.parse(cachedAccess);
+        setAccessSettings({
+          ...parsed,
+          pages: { dashboard: true, orders: true, stock: true, online: true, ...(parsed.pages || {}) }
+        });
+      } catch(e) {}
+    }
 
     // Real-time Firestore sync
     const unsubscribeOrders = onSnapshot(ordersRef, async (snapshot) => {
@@ -250,7 +258,7 @@ export default function App() {
   const tabsList = [
     { name: 'Dashboard', icon: Compass, key: 'dashboard' },
     { name: 'Custom Orders', icon: Landmark, key: 'orders' },
-    { name: 'Embroidery Stock', icon: Users, key: 'stock' },
+    { name: 'Embroidery Sarees', icon: Users, key: 'stock' },
     { name: 'Online Orders', icon: ShopContainerIcon, key: 'online' },
     { name: 'Customer Portal', icon: Scissors, key: 'portal', badge: 'Client Portal' }
   ].filter(tab => {
@@ -271,10 +279,14 @@ export default function App() {
     if (isAuthenticated && !showCustomerPortalOnly && !showNeutralPage) {
       const allowedTabNames = tabsList.map(t => t.name);
       if (allowedTabNames.length > 0 && !allowedTabNames.includes(activeTab)) {
-        setActiveTab(allowedTabNames[0]);
+        if (activeTab === 'Embroidery Stock' && allowedTabNames.includes('Embroidery Sarees')) {
+          setActiveTab('Embroidery Sarees');
+        } else {
+          setActiveTab(allowedTabNames[0]);
+        }
       }
     }
-  }, [isAuthenticated, userRole, accessSettings, showCustomerPortalOnly, showNeutralPage]);
+  }, [isAuthenticated, userRole, accessSettings, showCustomerPortalOnly, showNeutralPage, activeTab]);
 
   if (showCustomerPortalOnly) {
     return (
@@ -452,7 +464,7 @@ export default function App() {
                 />
               )}
 
-              {activeTab === 'Embroidery Stock' && (
+              {(activeTab === 'Embroidery Sarees' || activeTab === 'Embroidery Stock') && (
                 <EmbroideryStockView
                   items={embroideryItems}
                   onAddItem={handleAddStockItem}

@@ -130,7 +130,7 @@ export default function DashboardView({ orders, embroideryItems, onNavigateToTab
       icon: Users,
       borderColor: 'border-l-[#b8860b]',
       textColor: 'text-[#2c1810]',
-      tab: 'Embroidery Stock',
+      tab: 'Embroidery Sarees',
       subtitle: `${sareesAtKarigar} custom sarees • ${stockAtKarigar} stock items`
     },
     {
@@ -238,7 +238,7 @@ export default function DashboardView({ orders, embroideryItems, onNavigateToTab
                       onSelectOrder(item.parentOrder);
                       onNavigateToTab(item.parentOrder.orderType === 'custom' ? 'Custom Orders' : 'Online Orders');
                     } else if (item.itemRef) {
-                      onNavigateToTab('Embroidery Stock');
+                      onNavigateToTab('Embroidery Sarees');
                     }
                   }}
                   className="bg-white hover:bg-brand-wine/5 p-3 rounded-xl border border-brand-cream-dark transition-all duration-200 cursor-pointer space-y-1 group"

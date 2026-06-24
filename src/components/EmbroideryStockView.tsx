@@ -83,20 +83,33 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
 
   const handleSelectRandomPhoto = (type: 'singlePiece' | 'singleRef' | 'finished' | number) => {
     const randomUrl = PRESET_PHOTOS[Math.floor(Math.random() * PRESET_PHOTOS.length)];
-    const customUrl = prompt('Enter image URL or press OK to assign a premium artisan saree placeholder:', randomUrl);
-    if (customUrl === null) return; // user cancelled
-
     if (type === 'singlePiece') {
-      setSinglePiecePhoto(customUrl);
+      setSinglePiecePhoto(randomUrl);
     } else if (type === 'singleRef') {
-      setSingleRefPhoto(customUrl);
+      setSingleRefPhoto(randomUrl);
     } else if (type === 'finished') {
-      setFinishedPiecePhoto(customUrl);
+      setFinishedPiecePhoto(randomUrl);
     } else if (typeof type === 'number') {
       setMultiplePieces(prev =>
-        prev.map((p, idx) => (idx === type ? { ...p, piecePhoto: customUrl } : p))
+        prev.map((p, idx) => (idx === type ? { ...p, piecePhoto: randomUrl } : p))
       );
     }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, type: 'singlePiece' | 'singleRef' | 'finished' | number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const dataUrl = evt.target?.result as string;
+      if (type === 'singlePiece') setSinglePiecePhoto(dataUrl);
+      else if (type === 'singleRef') setSingleRefPhoto(dataUrl);
+      else if (type === 'finished') setFinishedPiecePhoto(dataUrl);
+      else if (typeof type === 'number') {
+        setMultiplePieces(prev => prev.map((p, idx) => (idx === type ? { ...p, piecePhoto: dataUrl } : p)));
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleCreateItem = (e: React.FormEvent) => {
@@ -635,10 +648,13 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                       <div className="grid grid-cols-2 gap-3">
                         <div>
                           <label className="block text-[9px] font-semibold text-stone-600 mb-1">Piece photo (given for embroidery)</label>
-                          <div
-                            onClick={() => handleSelectRandomPhoto('singlePiece')}
-                            className="border border-dashed border-stone-300 rounded-xl bg-white p-3.5 text-center cursor-pointer hover:bg-stone-50 hover:border-brand-gold transition-all group flex flex-col items-center justify-center min-h-[75px]"
-                          >
+                          <label className="border border-dashed border-stone-300 rounded-xl bg-white p-3.5 text-center cursor-pointer hover:bg-stone-50 hover:border-brand-gold transition-all group flex flex-col items-center justify-center min-h-[75px] relative block">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => handleFileUpload(e, 'singlePiece')}
+                            />
                             {singlePiecePhoto ? (
                               <div className="relative w-full h-[60px] flex items-center justify-center gap-1">
                                 <img src={singlePiecePhoto} alt="Piece" className="h-full w-auto rounded object-cover shadow" />
@@ -647,18 +663,28 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                             ) : (
                               <>
                                 <Plus className="w-4 h-4 text-stone-400 group-hover:text-brand-gold mb-1" />
-                                <span className="text-[10px] text-stone-500 font-sans">Tap to select photo</span>
+                                <span className="text-[10px] text-stone-500 font-sans">Tap to upload photo</span>
                               </>
                             )}
-                          </div>
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => handleSelectRandomPhoto('singlePiece')}
+                            className="mt-1 text-[9px] text-brand-wine hover:underline block w-full text-center font-medium"
+                          >
+                            Or pick sample photo
+                          </button>
                         </div>
 
                         <div>
                           <label className="block text-[9px] font-semibold text-stone-600 mb-1">Reference photo (optional - up to 4 images)</label>
-                          <div
-                            onClick={() => handleSelectRandomPhoto('singleRef')}
-                            className="border border-dashed border-stone-300 rounded-xl bg-white p-3.5 text-center cursor-pointer hover:bg-stone-50 hover:border-brand-gold transition-all group flex flex-col items-center justify-center min-h-[75px]"
-                          >
+                          <label className="border border-dashed border-stone-300 rounded-xl bg-white p-3.5 text-center cursor-pointer hover:bg-stone-50 hover:border-brand-gold transition-all group flex flex-col items-center justify-center min-h-[75px] relative block">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => handleFileUpload(e, 'singleRef')}
+                            />
                             {singleRefPhoto ? (
                               <div className="relative w-full h-[60px] flex items-center justify-center gap-1">
                                 <img src={singleRefPhoto} alt="Reference" className="h-full w-auto rounded object-cover shadow" />
@@ -667,10 +693,17 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                             ) : (
                               <>
                                 <Plus className="w-4 h-4 text-stone-400 group-hover:text-brand-gold mb-1" />
-                                <span className="text-[10px] text-stone-500 font-sans">Tap to add reference photo</span>
+                                <span className="text-[10px] text-stone-500 font-sans">Tap to upload ref photo</span>
                               </>
                             )}
-                          </div>
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => handleSelectRandomPhoto('singleRef')}
+                            className="mt-1 text-[9px] text-brand-wine hover:underline block w-full text-center font-medium"
+                          >
+                            Or pick sample photo
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -798,16 +831,26 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                               
                               <div>
                                 <label className="block text-[8px] font-bold text-stone-500 uppercase mb-0.5">Piece photo</label>
-                                <div
-                                  onClick={() => handleSelectRandomPhoto(index)}
-                                  className="border border-dashed border-stone-200 rounded-lg bg-stone-50/40 p-1 text-center cursor-pointer hover:bg-stone-100 flex items-center justify-center h-8"
-                                >
+                                <label className="border border-dashed border-stone-200 rounded-lg bg-stone-50/40 p-1 text-center cursor-pointer hover:bg-stone-100 flex items-center justify-center h-8 relative block">
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => handleFileUpload(e, index)}
+                                  />
                                   {piece.piecePhoto ? (
                                     <img src={piece.piecePhoto} alt="Piece Thumbnail" className="h-6 w-auto rounded shadow-sm object-cover" />
                                   ) : (
-                                    <span className="text-[8px] text-stone-500 leading-tight">Tap to add piece photo</span>
+                                    <span className="text-[8px] text-stone-500 leading-tight">Upload Photo</span>
                                   )}
-                                </div>
+                                </label>
+                                <button
+                                  type="button"
+                                  onClick={() => handleSelectRandomPhoto(index)}
+                                  className="text-[7.5px] text-brand-wine hover:underline block w-full text-center mt-0.5"
+                                >
+                                  Sample
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -957,10 +1000,13 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                   {/* Photo when received back */}
                   <div>
                     <label className="block text-[9px] font-semibold text-stone-600 mb-1">Photo when received back (finished piece)</label>
-                    <div
-                      onClick={() => handleSelectRandomPhoto('finished')}
-                      className="border border-dashed border-stone-300 rounded-xl bg-white p-3.5 text-center cursor-pointer hover:bg-stone-50 hover:border-brand-gold transition-all group flex flex-col items-center justify-center min-h-[70px]"
-                    >
+                    <label className="border border-dashed border-stone-300 rounded-xl bg-white p-3.5 text-center cursor-pointer hover:bg-stone-50 hover:border-brand-gold transition-all group flex flex-col items-center justify-center min-h-[70px] relative block">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleFileUpload(e, 'finished')}
+                      />
                       {finishedPiecePhoto ? (
                         <div className="relative w-full h-[55px] flex items-center justify-center gap-1">
                           <img src={finishedPiecePhoto} alt="Finished embroidery" className="h-full w-auto rounded object-cover shadow" />
@@ -969,10 +1015,17 @@ export default function EmbroideryStockView({ items, onAddItem, onUpdateItemStat
                       ) : (
                         <>
                           <CheckCircle2 className="w-4 h-4 text-stone-400 group-hover:text-brand-gold mb-1" />
-                          <span className="text-[10px] text-stone-500 font-sans">Tap to add finished-piece photo</span>
+                          <span className="text-[10px] text-stone-500 font-sans">Tap to upload finished photo</span>
                         </>
                       )}
-                    </div>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectRandomPhoto('finished')}
+                      className="mt-1 text-[9px] text-brand-wine hover:underline block w-full text-center font-medium"
+                    >
+                      Or pick sample photo
+                    </button>
                   </div>
                 </div>
 

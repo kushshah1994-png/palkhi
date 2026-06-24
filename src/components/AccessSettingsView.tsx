@@ -101,7 +101,7 @@ export default function AccessSettingsView({ settings, onSave }: AccessSettingsV
               onChange={(e) => setStock(e.target.checked)}
               className="w-4 h-4 rounded text-brand-wine focus:ring-brand-wine accent-brand-gold"
             />
-            <span className="text-sm font-medium text-stone-800">Embroidery Stock Tracking</span>
+            <span className="text-sm font-medium text-stone-800">Embroidery Sarees Tracking</span>
           </label>
 
           <label className="flex items-center gap-3 p-3 hover:bg-brand-cream-soft rounded-lg cursor-pointer transition-colors">
