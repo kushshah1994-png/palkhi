@@ -86,8 +86,17 @@ export default function App() {
         }
       } else {
         const liveStock = snapshot.docs.map(d => d.data() as EmbroideryStockItem);
-        setEmbroideryItems(liveStock);
-        localStorage.setItem('PALKHE_STOCK', JSON.stringify(liveStock));
+        const existingIds = new Set(liveStock.map(i => i.id));
+        const missingItems = INITIAL_EMBROIDERY_STOCK.filter(i => !existingIds.has(i.id));
+
+        if (missingItems.length > 0) {
+          missingItems.forEach(item => {
+            setDoc(doc(stockRef, item.id), item).catch(e => console.error(e));
+          });
+        }
+        const fullStock = missingItems.length > 0 ? [...liveStock, ...missingItems] : liveStock;
+        setEmbroideryItems(fullStock);
+        localStorage.setItem('PALKHE_STOCK', JSON.stringify(fullStock));
       }
     }, (error) => {
       console.error('Firestore stock error:', error);

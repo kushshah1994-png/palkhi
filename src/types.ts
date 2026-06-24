@@ -109,7 +109,7 @@ export interface Order {
   notes?: string;
 }
 
-export type EmbroideryPieceStatus = 'Pending' | 'Given to karigar' | 'Received from karigar' | 'Ready';
+export type EmbroideryPieceStatus = 'Pending' | 'Given to karigar' | 'Received from karigar' | 'Ready' | 'In stock' | 'Sold';
 
 export interface EmbroideryStockItem {
   id: string;
@@ -127,6 +127,20 @@ export interface EmbroideryStockItem {
   totalCost?: number;
   expectedDeliveryDate?: string;
   associatedOrderNumber?: string;
+  party?: string;
+  purpose?: string;
+  linkedOrder?: string;
+  qty?: number;
+  embType?: string;
+  photoUrl?: string;
+  refUrl?: string;
+  returnUrl?: string;
+  givenDate?: string;
+  expectedDate?: string;
+  recdDate?: string;
+  savedAt?: string;
+  recdPalluUrl?: string;
+  recdBorderUrl?: string;
 }
 
 // Utility function to capitalize each word in a string (Auto-capitalize)
